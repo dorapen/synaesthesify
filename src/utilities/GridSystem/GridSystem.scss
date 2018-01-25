@@ -1,0 +1,53 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.grid-system {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+
+  > div {
+    height: 100vh;
+  }
+
+  &.active {
+    .column {
+      height: 100%;
+    }
+  }
+
+  .row {
+    height: 100%;
+  }
+
+  .column {
+    height: 0;
+    padding: 0;
+    border-right: ($grid-gutter-width / 2) solid rgba(theme-color('success'), 0.3);
+    border-left: ($grid-gutter-width / 2) solid rgba(theme-color('success'), 0.3);
+    background-color: rgba(theme-color('info'), 0.3);
+    transition: height 0.3s ease-in-out; // Just for fun :P
+  }
+
+  .toggle {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    padding: 1em 2em;
+    border: 1px solid;
+    border-radius: 9999em;
+    background: none;
+    color: theme-color('primary');
+    cursor: pointer;
+    opacity: 0.5;
+    pointer-events: initial;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}

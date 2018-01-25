@@ -1,0 +1,33 @@
+.artwork {
+  position: relative;
+}
+
+.artwork-options {
+  display: flex;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    margin-right: 2em;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  [type='checkbox'] {
+    margin-right: 0.5em;
+  }
+}
+
+.artwork-title {
+  position: absolute;
+  top: calc(50% - 0.5em);
+  width: 100%;
+  text-align: center;
+}
+
+.artwork-canvas {
+  width: 100%;
+  height: auto;
+}

@@ -1,0 +1,23 @@
+.album-list {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 0;
+  list-style: none;
+}
+
+.album-list-item {
+  width: percentage(1 / 8);
+  margin-bottom: 15px;
+
+  > button {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+    font-size: (12rem / 16);
+    text-align: center;
+  }
+}

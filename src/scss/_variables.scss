@@ -1,0 +1,67 @@
+// Colours
+$primary-white: #f3f2e3;
+$primary-black: #0c2126;
+$primary-gray: #183840;
+$primary-gray-light: #2f4851;
+
+$secondary-magenta: #e40652;
+$secondary-red: #b11c43;
+$secondary-pink: #e5678e;
+$secondary-orange: #f3873d;
+$secondary-yellow: #ffbc42;
+$secondary-green: #5dcb7f;
+$secondary-emerald: #66d2b6;
+$secondary-blue: #8d93e2;
+
+// Fonts
+// TODO: check web font weight values –
+// currently black(900) is actually thinner than ultra(800)
+// for local Gotham font.
+$font-family-sans-serif: 'Gotham', -apple-system, system-ui, BlinkMacSystemFont,
+  'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+$font-weight-ultra: 800; // Not used.
+$font-weight-black: 900;
+$font-weight-bold: 700;
+$font-weight-medium: 500; // Not used.
+$font-weight-book: 400;
+$font-weight-light: 300;
+$font-weight-extra-light: 200;
+$font-weight-thin: 100; // Not used.
+
+$font-size-h1: 42px;
+$font-size-h2: 50px;
+$font-size-h3: 40px;
+$font-size-h4: 30px;
+$font-size-h5: 20px;
+
+$font-size-p1: 18px;
+$font-size-p2: 16px;
+$font-size-p3: 14px;
+$font-size-p4: 12px;
+
+$line-height-h1: (70px / $font-size-h1);
+$line-height-h2: (65px / $font-size-h2);
+$line-height-h3: (50px / $font-size-h3);
+$line-height-h4: (40px / $font-size-h4);
+$line-height-h5: (30px / $font-size-h5);
+
+$line-height-p1: (30px / $font-size-p1);
+$line-height-p2: (30px / $font-size-p2);
+$line-height-p3: (28px / $font-size-p3);
+$line-height-p4: (24px / $font-size-p4);
+
+// Body
+$body-bg: $primary-black;
+$body-color: $primary-white;
+
+// Links
+$link-color: $primary-white;
+
+// Grid containers
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px
+) !default;
