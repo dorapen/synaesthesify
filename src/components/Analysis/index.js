@@ -36,9 +36,10 @@ class Analysis extends React.Component {
     } = props;
     const currAlbum = albums[currentAlbum.id];
     if (
-      currAlbum &&
-      trackColors[currentAlbum.id] &&
-      currAlbum.data.tracks.items.length === Object.keys(trackColors[currentAlbum.id].color).length
+      currAlbum
+      && trackColors[currentAlbum.id]
+      && currAlbum.data.tracks.items.length
+        === Object.keys(trackColors[currentAlbum.id].color).length
     ) {
       const tracks = currAlbum.data.tracks.items;
       let allFeaturesLoaded = true;
@@ -47,8 +48,8 @@ class Analysis extends React.Component {
         const track = currentAlbum.type === 'playlist' ? item.track : item;
 
         if (
-          !trackFeatures[track.id] ||
-          trackFeatures[track.id].isFetching
+          !trackFeatures[track.id]
+          || trackFeatures[track.id].isFetching
         ) {
           allFeaturesLoaded = false;
         }
@@ -61,7 +62,9 @@ class Analysis extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.data) {
+    const { data } = this.state;
+
+    if (data) {
       this.svgCanvas.innerHTML = '';
       this.drawChart();
     }
@@ -80,7 +83,7 @@ class Analysis extends React.Component {
 
     tracks.forEach((item) => {
       const track = currentAlbum.type === 'playlist' ? item.track : item;
-      const {id, name} = track;
+      const { id, name } = track;
       const color = trackColors[currentAlbum.id].color[id];
       const features = trackFeatures[track.id].data;
       const featuresArray = [];
@@ -107,8 +110,7 @@ class Analysis extends React.Component {
   }
 
   drawChart() {
-    const dataList = this.state.data;
-    const {randomPosition, randomRotation} = this.state;
+    const { data: dataList, randomPosition, randomRotation } = this.state;
     const axisLength = 500;
     const offset = (2 * Math.PI) / this.features.length;
     const startingAngle = -Math.PI / 2;
@@ -133,8 +135,8 @@ class Analysis extends React.Component {
     const radar = chart.selectAll('g').data(dataList)
       .enter().append('g')
       .attr('transform', () => {
-        const coordinate = randomPosition ?
-          new RandomCoordinate(400, 400, -200, -200) : {x: 0, y: 0};
+        const coordinate = randomPosition
+          ? new RandomCoordinate(400, 400, -200, -200) : { x: 0, y: 0 };
         const rotate = randomRotation ? Math.random() * 360 : 0;
 
         return `rotate(${rotate}) translate(${coordinate.x}, ${coordinate.y})`;
@@ -146,31 +148,35 @@ class Analysis extends React.Component {
         const points = [];
 
         features.data.forEach((feature) => {
-          const theta = startingAngle - (count++ * offset);
+          count += 1;
+          const theta = startingAngle - (count * offset);
           points.push(`${x(feature.value, theta)} ${y(feature.value, theta)}`);
         });
 
         return points.toString();
       })
-      .attr('fill', features => (features.color))
+      .attr('fill', (features) => (features.color))
       .attr('fill-opacity', 0.5);
   }
 
   handler(type) {
+    const { randomPosition, randomRotation } = this.state;
+
     if (type === 'randomPosition') {
       this.setState({
-        randomPosition: !this.state.randomPosition,
+        randomPosition: !randomPosition,
       });
     }
+
     if (type === 'randomRotation') {
       this.setState({
-        randomRotation: !this.state.randomRotation,
+        randomRotation: !randomRotation,
       });
     }
   }
 
   render() {
-    const {albumName, randomPosition, randomRotation} = this.state;
+    const { albumName, randomPosition, randomRotation } = this.state;
     let title = '';
     if (albumName) {
       title = <h1 className="artwork-title">{albumName}</h1>;
@@ -214,10 +220,13 @@ class Analysis extends React.Component {
 }
 
 Analysis.propTypes = {
-  albums: PropTypes.object.isRequired,
-  currentAlbum: PropTypes.object.isRequired,
-  trackColors: PropTypes.object.isRequired,
-  trackFeatures: PropTypes.object.isRequired,
+  albums: PropTypes.shape({}).isRequired,
+  currentAlbum: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
+  trackColors: PropTypes.shape({}).isRequired,
+  trackFeatures: PropTypes.shape({}).isRequired,
 };
 
 export default Analysis;

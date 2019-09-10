@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class MainTemplate extends React.Component {
   componentWillMount() {
-    const {authenticate, location} = this.props;
+    const { authenticate, location } = this.props;
 
     if (location.hash) {
       authenticate(location.hash);
@@ -11,9 +11,9 @@ class MainTemplate extends React.Component {
   }
 
   render() {
-    const {auth, children} = this.props;
+    const { auth, children, isTest } = this.props;
 
-    if (!this.props.isTest && !auth.access_token) {
+    if (!isTest && !auth.access_token) {
       return (
         <div className="login row">
           <main className="col-md-12">
@@ -38,11 +38,15 @@ class MainTemplate extends React.Component {
 }
 
 MainTemplate.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.shape({
+    access_token: PropTypes.string,
+  }).isRequired,
   isTest: PropTypes.bool,
   children: PropTypes.node.isRequired,
   authenticate: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+  }).isRequired,
 };
 
 MainTemplate.defaultProps = {

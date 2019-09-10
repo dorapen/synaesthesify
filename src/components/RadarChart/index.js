@@ -32,18 +32,19 @@ class RadarChart extends React.Component {
     this.radarChart.innerHTML = '';
 
     if (
-      currentTrack &&
-      trackColors[currentAlbum.id] &&
-      trackColors[currentAlbum.id].color[currentTrack] &&
-      trackFeatures[currentTrack]
+      currentTrack
+      && trackColors[currentAlbum.id]
+      && trackColors[currentAlbum.id].color[currentTrack]
+      && trackFeatures[currentTrack]
     ) {
       const features = trackFeatures[currentTrack].data;
       let featuresData = {};
 
       this.features.forEach((feature) => {
-        featuresData = Object.assign({}, featuresData, {
+        featuresData = {
+          ...featuresData,
           [feature]: features[feature],
-        });
+        };
       });
 
       this.featuresData = featuresData;
@@ -87,7 +88,8 @@ class RadarChart extends React.Component {
     const D = this.featuresData;
 
     Object.keys(D).forEach((feature) => {
-      const theta = startingAngle - (count++ * offset);
+      count += 1;
+      const theta = startingAngle - (count * offset);
       points.push(`${x(D[feature], theta)} ${y(D[feature], theta)}`);
     });
 
@@ -109,10 +111,12 @@ class RadarChart extends React.Component {
 }
 
 RadarChart.propTypes = {
-  currentAlbum: PropTypes.object.isRequired,
+  currentAlbum: PropTypes.shape({
+    id: PropTypes.string,
+  }).isRequired,
   currentTrack: PropTypes.string.isRequired,
-  trackColors: PropTypes.object.isRequired,
-  trackFeatures: PropTypes.object.isRequired,
+  trackColors: PropTypes.shape({}).isRequired,
+  trackFeatures: PropTypes.shape({}).isRequired,
 };
 
 export default RadarChart;

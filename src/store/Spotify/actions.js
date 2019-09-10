@@ -25,14 +25,14 @@ const requestUrl = (url, query) => {
 };
 
 // Authentication
-const setAuthInfo = data => ({
+const setAuthInfo = (data) => ({
   type: SET_AUTH_INFO,
   data: querystring.parse(data.slice(1)),
 });
 
-export const authenticate = data => (
+export const authenticate = (data) => (
   (dispatch, getState) => {
-    const {auth} = getState();
+    const { auth } = getState();
 
     if (!data || auth.access_token) {
       return;
@@ -49,14 +49,14 @@ const requestNewRelease = () => ({
   type: REQUEST_NEW_RELEASE,
 });
 
-const receiveNewRelease = data => ({
+const receiveNewRelease = (data) => ({
   type: RECEIVE_NEW_RELEASE,
   data,
 });
 
 export const fetchNewRelease = (limit = 16) => (
   (dispatch, getState) => {
-    const {newRelease} = getState();
+    const { newRelease } = getState();
 
     if (newRelease.isFetching || newRelease.data) {
       return false;
@@ -67,13 +67,13 @@ export const fetchNewRelease = (limit = 16) => (
     const url = `${SPOTIFY_BASE}/browse/new-releases`;
 
     return fetch(requestUrl(url, `limit=${limit}`))
-      .then(response => response.json())
-      .then(data => dispatch(receiveNewRelease(data)));
+      .then((response) => response.json())
+      .then((data) => dispatch(receiveNewRelease(data)));
   }
 );
 
 // Playlists
-const requestPlaylist = playlistId => ({
+const requestPlaylist = (playlistId) => ({
   type: REQUEST_PLAYLIST,
   id: playlistId,
 });
@@ -86,7 +86,7 @@ const receivePlaylist = (playlistId, data) => ({
 
 export const fetchPlaylist = (userId, playlistId) => (
   (dispatch, getState) => {
-    const {albums} = getState();
+    const { albums } = getState();
 
     if (albums[playlistId]) {
       return false;
@@ -101,13 +101,13 @@ export const fetchPlaylist = (userId, playlistId) => (
     const url = `${SPOTIFY_BASE}/users/${userId}/playlists/${playlistId}`;
 
     return fetch(requestUrl(url))
-      .then(response => response.json())
-      .then(data => dispatch(receivePlaylist(playlistId, data)));
+      .then((response) => response.json())
+      .then((data) => dispatch(receivePlaylist(playlistId, data)));
   }
 );
 
 // Albums
-const requestAlbum = id => ({
+const requestAlbum = (id) => ({
   type: REQUEST_ALBUM,
   id,
 });
@@ -118,13 +118,13 @@ const receiveAlbum = (id, data) => ({
   data,
 });
 
-export const fetchAlbum = id => (
+export const fetchAlbum = (id) => (
   (dispatch, getState) => {
-    const {albums} = getState();
+    const { albums } = getState();
 
     if (
-      albums[id] &&
-      (albums[id].isFetching || albums[id].data)
+      albums[id]
+      && (albums[id].isFetching || albums[id].data)
     ) {
       return false;
     }
@@ -134,13 +134,13 @@ export const fetchAlbum = id => (
     const url = `${SPOTIFY_BASE}/albums/${id}`;
 
     return fetch(requestUrl(url))
-      .then(response => response.json())
-      .then(data => dispatch(receiveAlbum(id, data)));
+      .then((response) => response.json())
+      .then((data) => dispatch(receiveAlbum(id, data)));
   }
 );
 
 // Audio Features
-const requestTrackFeatures = id => ({
+const requestTrackFeatures = (id) => ({
   type: REQUEST_TRACK_FEATURES,
   id,
 });
@@ -151,9 +151,9 @@ const receiveTrackFeatures = (id, data) => ({
   data,
 });
 
-export const fetchTrackFeatures = id => (
+export const fetchTrackFeatures = (id) => (
   (dispatch, getState) => {
-    const {trackFeatures} = getState();
+    const { trackFeatures } = getState();
 
     // Audio feature is already loaded
     if (trackFeatures[id]) {
@@ -165,7 +165,7 @@ export const fetchTrackFeatures = id => (
     const url = `${SPOTIFY_BASE}/audio-features/${id}`;
 
     return fetch(requestUrl(url))
-      .then(response => response.json())
-      .then(data => dispatch(receiveTrackFeatures(id, data)));
+      .then((response) => response.json())
+      .then((data) => dispatch(receiveTrackFeatures(id, data)));
   }
 );

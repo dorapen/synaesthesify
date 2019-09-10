@@ -29,8 +29,8 @@ export const getAlbumColor = (album, key) => (
       return;
     }
 
-    const {id, images} = album;
-    const {albumColors} = getState();
+    const { id, images } = album;
+    const { albumColors } = getState();
 
     // Already requested
     if (albumColors[key]) {
@@ -49,7 +49,7 @@ export const getAlbumColor = (album, key) => (
   }
 );
 
-const requestTrackColor = id => ({
+const requestTrackColor = (id) => ({
   type: REQUEST_TRACK_COLOR,
   id,
 });
@@ -62,7 +62,7 @@ const receiveTrackColor = (id, color) => ({
 
 export const extractTrackColor = (tracks, albumId) => (
   (dispatch, getState) => {
-    const {trackFeatures, trackColors} = getState();
+    const { trackFeatures, trackColors } = getState();
 
     if (trackColors[albumId]) {
       return;
@@ -75,9 +75,9 @@ export const extractTrackColor = (tracks, albumId) => (
     const tempos = [];
 
     tracks.forEach((track) => {
-      const {id} = track;
+      const { id } = track;
       if (trackFeatures[id] && !trackFeatures[id].isFetching) {
-        const {tempo, key, loudness} = trackFeatures[id].data;
+        const { tempo, key, loudness } = trackFeatures[id].data;
 
         tempos.push(tempo);
         keys.push(key);
@@ -100,13 +100,14 @@ export const extractTrackColor = (tracks, albumId) => (
     let colors = {};
 
     tracks.forEach((track) => {
-      const {id} = track;
+      const { id } = track;
       if (trackFeatures[id] && !trackFeatures[id].isFetching) {
-        const {tempo, key, loudness} = trackFeatures[id].data;
+        const { tempo, key, loudness } = trackFeatures[id].data;
 
-        colors = Object.assign({}, colors, {
+        colors = {
+          ...colors,
           [id]: `hsl(${h(tempo)}, ${s(key)}%, ${100 - l(-loudness)}%)`,
-        });
+        };
       }
     });
 
@@ -114,14 +115,14 @@ export const extractTrackColor = (tracks, albumId) => (
   }
 );
 
-export const setCurrentTrack = id => ({
+export const setCurrentTrack = (id) => ({
   type: SET_CURRENT_TRACK,
   id,
 });
 
 export const setCurrentAlbum = (id, albumType = 'album') => (
   (dispatch, getState) => {
-    const {currentAlbum} = getState();
+    const { currentAlbum } = getState();
     if (currentAlbum === id) {
       return;
     }

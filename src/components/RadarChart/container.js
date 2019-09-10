@@ -1,8 +1,8 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import RadarChart from './';
+import RadarChart from '.';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAlbum: state.currentAlbum,
   currentTrack: state.currentTrack,
   trackColors: state.trackColors,

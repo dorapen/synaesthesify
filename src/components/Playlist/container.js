@@ -1,14 +1,14 @@
-import {connect} from 'react-redux';
-import {fetchPlaylist} from '../../store/Spotify/actions';
-import {getAlbumColor, setCurrentAlbum} from '../../store/App/actions';
-import Playlist from './';
+import { connect } from 'react-redux';
+import { fetchPlaylist } from '../../store/Spotify/actions';
+import { getAlbumColor, setCurrentAlbum } from '../../store/App/actions';
+import Playlist from '.';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   albums: state.albums,
   albumColors: state.albumColors,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchPlaylist: (userId, playlistId) => {
     dispatch(fetchPlaylist(userId, playlistId));
   },

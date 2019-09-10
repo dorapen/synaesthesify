@@ -1,10 +1,10 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchAlbum, fetchTrackFeatures} from '../../store/Spotify/actions';
-import {extractTrackColor, setCurrentTrack} from '../../store/App/actions';
-import Tracks from './';
+import { fetchAlbum, fetchTrackFeatures } from '../../store/Spotify/actions';
+import { extractTrackColor, setCurrentTrack } from '../../store/App/actions';
+import Tracks from '.';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   albums: state.albums,
   currentAlbum: state.currentAlbum,
   currentTrack: state.currentTrack,
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
   trackFeatures: state.trackFeatures,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   extractTrackColor: (tracks, albumId) => {
     dispatch(extractTrackColor(tracks, albumId));
   },

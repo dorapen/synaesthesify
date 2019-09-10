@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import MainTemplate from '../templates/MainTemplate/container';
 
@@ -9,7 +9,7 @@ import Analysis from '../components/Analysis/container';
 const Routes = () => (
   <Route
     path="/"
-    render={({location}) => (
+    render={({ location }) => (
       <MainTemplate location={location}>
         <Switch>
           <Route exact path="/" component={Home} />

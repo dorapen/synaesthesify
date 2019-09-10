@@ -1,0 +1,27 @@
+[ignore]
+.*/node_modules/findup/.*
+.*/packages/**/*
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+# Handle S/CSS modules.
+module.name_mapper.extension='css' -> '<PROJECT_ROOT>/config/flow.css.js'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/config/flow.css.js'
+
+# Handle image imports.
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/config/flow.assets.js'
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/config/flow.assets.js'
+# module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/config/flow.assets.js'
+
+# Handle ES7 class syntax.
+# esproposal.class_static_fields=enable
+# esproposal.class_instance_fields=enable
+
+# Ignore Flow check with // flow-disable-line
+suppress_comment=\\(.\\|\n\\)*\\flow-disable-line
+
+[strict]

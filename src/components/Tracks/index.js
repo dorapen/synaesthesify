@@ -14,11 +14,11 @@ class Tracks extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {albums, currentAlbum, trackFeatures} = nextProps;
-    const {fetchAlbum, fetchTrackFeatures} = this.props;
+    const { albums, currentAlbum: nextAlbum, trackFeatures } = nextProps;
+    const { currentAlbum, fetchAlbum, fetchTrackFeatures } = this.props;
 
-    if (this.props.currentAlbum && currentAlbum) {
-      if (this.props.currentAlbum.id !== currentAlbum.id) {
+    if (currentAlbum && nextAlbum) {
+      if (currentAlbum.id !== nextAlbum.id) {
         this.setState({
           allFeaturesLoaded: false,
           tracks: 'loading',
@@ -26,23 +26,23 @@ class Tracks extends React.Component {
       }
     }
 
-    if (currentAlbum.id) {
-      if (!albums[currentAlbum.id]) {
-        fetchAlbum(currentAlbum.id);
-      } else if (!albums[currentAlbum.id].isFetching) {
-        const album = albums[currentAlbum.id].data;
+    if (nextAlbum.id) {
+      if (!albums[nextAlbum.id]) {
+        fetchAlbum(nextAlbum.id);
+      } else if (!albums[nextAlbum.id].isFetching) {
+        const album = albums[nextAlbum.id].data;
         const tracks = [];
         let loaded = 0;
 
         album.tracks.items.forEach((item) => {
-          const track = currentAlbum.type === 'playlist' ? item.track : item;
+          const track = nextAlbum.type === 'playlist' ? item.track : item;
 
           tracks.push(track);
 
           if (!trackFeatures[track.id]) {
             fetchTrackFeatures(track.id);
           } else if (!trackFeatures[track.id].isFetching) {
-            loaded++;
+            loaded += 1;
           }
         });
 
@@ -57,24 +57,24 @@ class Tracks extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const {currentAlbum} = nextProps;
-    const {allFeaturesLoaded, tracks} = nextState;
-    const {extractTrackColor} = this.props;
+    const { currentAlbum: nextAlbum } = nextProps;
+    const { allFeaturesLoaded, tracks } = nextState;
+    const { extractTrackColor } = this.props;
 
     if (allFeaturesLoaded) {
-      extractTrackColor(tracks, currentAlbum.id);
+      extractTrackColor(tracks, nextAlbum.id);
     }
   }
 
   handler(e, id) {
     e.preventDefault();
 
-    const {setCurrentTrack} = this.props;
+    const { setCurrentTrack } = this.props;
     setCurrentTrack(id);
   }
 
   render() {
-    const {allFeaturesLoaded, tracks} = this.state;
+    const { allFeaturesLoaded, tracks } = this.state;
 
     if (tracks.length === 0) {
       return (
@@ -84,7 +84,9 @@ class Tracks extends React.Component {
           </p>
         </div>
       );
-    } else if (!allFeaturesLoaded || tracks === 'loading') {
+    }
+
+    if (!allFeaturesLoaded || tracks === 'loading') {
       return (
         <div className="track-control">
           <p>
@@ -121,9 +123,9 @@ class Tracks extends React.Component {
       };
 
       if (
-        trackColors[currentAlbum.id] &&
-        trackColors[currentAlbum.id].color &&
-        trackColors[currentAlbum.id].color[track.id]
+        trackColors[currentAlbum.id]
+        && trackColors[currentAlbum.id].color
+        && trackColors[currentAlbum.id].color[track.id]
       ) {
         style = {
           backgroundColor: trackColors[currentAlbum.id].color[track.id],
@@ -132,8 +134,10 @@ class Tracks extends React.Component {
 
       trackList.push((
         <li className={`track-item ${activeClass}`} key={track.id}>
-          <button href="#" onClick={(e) => { this.handler(e, track.id); }} style={style}>
-            <span className="sr-only">#{track.track_number}</span>
+          <button href="#" onClick={(e) => { this.handler(e, track.id); }} style={style} type="button">
+            <span className="sr-only">
+              {`#${track.track_number}`}
+            </span>
           </button>
         </li>
       ));
@@ -151,11 +155,14 @@ class Tracks extends React.Component {
 }
 
 Tracks.propTypes = {
-  albums: PropTypes.object.isRequired,
-  currentAlbum: PropTypes.object.isRequired,
+  albums: PropTypes.shape({}).isRequired,
+  currentAlbum: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
   currentTrack: PropTypes.string.isRequired,
-  trackColors: PropTypes.object.isRequired,
-  trackFeatures: PropTypes.object.isRequired,
+  trackColors: PropTypes.shape({}).isRequired,
+  trackFeatures: PropTypes.shape({}).isRequired,
   extractTrackColor: PropTypes.func.isRequired,
   fetchAlbum: PropTypes.func.isRequired,
   fetchTrackFeatures: PropTypes.func.isRequired,

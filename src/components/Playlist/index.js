@@ -9,12 +9,12 @@ class Playlist extends React.Component {
   }
 
   componentDidMount() {
-    const {userId, playlistId, fetchPlaylist} = this.props;
+    const { userId, playlistId, fetchPlaylist } = this.props;
     fetchPlaylist(userId, playlistId);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {albums, playlistId, getAlbumColor} = nextProps;
+    const { albums, playlistId, getAlbumColor } = nextProps;
     const playlist = albums[playlistId];
 
     if (playlist && !playlist.isFetching) {
@@ -26,7 +26,8 @@ class Playlist extends React.Component {
   handler(e, id) {
     e.preventDefault();
 
-    this.props.setCurrentAlbum(id, 'playlist');
+    const { setCurrentAlbum } = this.props;
+    setCurrentAlbum(id, 'playlist');
   }
 
   render() {
@@ -47,8 +48,8 @@ class Playlist extends React.Component {
     }
 
     if (
-      !albumColors[`playlist-${playlistId}`] ||
-      albumColors[`playlist-${playlistId}`].isExtracting
+      !albumColors[`playlist-${playlistId}`]
+      || albumColors[`playlist-${playlistId}`].isExtracting
     ) {
       return (
         <div className="playlist">
@@ -64,7 +65,7 @@ class Playlist extends React.Component {
 
     return (
       <div className="playlist">
-        <button href="#" style={style} onClick={(e) => { this.handler(e, playlistId); }}>
+        <button href="#" style={style} onClick={(e) => { this.handler(e, playlistId); }} type="button">
           <span>
             {displayName}
           </span>
@@ -78,8 +79,8 @@ Playlist.propTypes = {
   userId: PropTypes.string.isRequired,
   playlistId: PropTypes.string.isRequired,
   label: PropTypes.string,
-  albums: PropTypes.object.isRequired,
-  albumColors: PropTypes.object.isRequired,
+  albums: PropTypes.shape({}).isRequired,
+  albumColors: PropTypes.shape({}).isRequired,
   fetchPlaylist: PropTypes.func.isRequired,
   getAlbumColor: PropTypes.func.isRequired,
   setCurrentAlbum: PropTypes.func.isRequired,

@@ -9,11 +9,12 @@ class NewRelease extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchNewRelease();
+    const { fetchNewRelease } = this.props;
+    fetchNewRelease();
   }
 
   componentWillReceiveProps(props) {
-    const {newRelease, albumColors, getAlbumColor} = props;
+    const { newRelease, albumColors, getAlbumColor } = props;
 
     if (newRelease.albums && Object.keys(albumColors).length === 0) {
       const albums = newRelease.albums.items;
@@ -26,12 +27,13 @@ class NewRelease extends React.Component {
 
   handler(e, id) {
     e.preventDefault();
+    const { setCurrentAlbum } = this.props;
 
-    this.props.setCurrentAlbum(id);
+    setCurrentAlbum(id);
   }
 
   render() {
-    const {newRelease, albumColors} = this.props;
+    const { newRelease, albumColors } = this.props;
 
     if (newRelease.isFetching || !newRelease.albums) {
       return (
@@ -59,8 +61,10 @@ class NewRelease extends React.Component {
 
       albumList.push((
         <li className="album-list-item" key={album.id}>
-          <button href="#" style={style} onClick={(e) => { this.handler(e, album.id); }}>
-            <span>#{index + 1}</span>
+          <button href="#" style={style} onClick={(e) => { this.handler(e, album.id); }} type="button">
+            <span>
+              {`#${index + 1}`}
+            </span>
           </button>
         </li>
       ));
@@ -75,8 +79,13 @@ class NewRelease extends React.Component {
 }
 
 NewRelease.propTypes = {
-  newRelease: PropTypes.object.isRequired,
-  albumColors: PropTypes.object.isRequired,
+  newRelease: PropTypes.shape({
+    albums: PropTypes.shape({
+      items: PropTypes.arrayOf(PropTypes.shape({})),
+    }),
+    isFetching: PropTypes.bool,
+  }).isRequired,
+  albumColors: PropTypes.shape({}).isRequired,
   fetchNewRelease: PropTypes.func.isRequired,
   getAlbumColor: PropTypes.func.isRequired,
   setCurrentAlbum: PropTypes.func.isRequired,

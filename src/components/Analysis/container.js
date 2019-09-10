@@ -1,7 +1,7 @@
-import {connect} from 'react-redux';
-import Analysis from './';
+import { connect } from 'react-redux';
+import Analysis from '.';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   albums: state.albums,
   currentAlbum: state.currentAlbum,
   trackColors: state.trackColors,
